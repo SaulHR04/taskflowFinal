@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+  "build :pages": "tsc -b && GITHUB_PAGES=true vite build && cp dist/index.html dist/404.html"
+
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
