@@ -1,12 +1,21 @@
 import { httpClient } from './httpClient'
-import type { NewProject, Project } from '../types'
+import type { Project } from '../types'
 
 export async function getProjects(): Promise<Project[]> {
-  const { data } = await httpClient.get<Project[]>('/projects')
-  return data
+  const response = await httpClient.get<Project[]>('/api/projects')
+  return response.data
 }
 
-export async function createProject(body: NewProject): Promise<Project> {
-  const { data } = await httpClient.post<Project>('/projects', body)
-  return data
+export async function createProject(data: { name: string; description?: string }): Promise<Project> {
+  const response = await httpClient.post<Project>('/api/projects', data)
+  return response.data
+}
+
+export async function updateProject(id: number | string, data: { name: string; description?: string }): Promise<Project> {
+  const response = await httpClient.put<Project>(`/api/projects/${id}`, data)
+  return response.data
+}
+
+export async function deleteProject(id: number | string): Promise<void> {
+  await httpClient.delete(`/api/projects/${id}`)
 }
