@@ -1,36 +1,26 @@
-import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
-import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { ProtectedRoute } from './ProtectedRoute'
+import { DashboardPage } from './pages/DashboardPage'
 import { LoginPage } from './pages/LoginPage'
 
 const theme = createTheme()
-
-function DashboardPlaceholder() {
-  return (
-    <Box maxWidth={480} mx="auto" mt={8}>
-      <Typography variant="h4" gutterBottom>
-        ¡Sesión iniciada!
-      </Typography>
-      <Typography color="text.secondary">
-        Token guardado en localStorage. En la Fase 2 reemplazamos esto por el dashboard real.
-      </Typography>
-    </Box>
-  )
-}
+const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={routerBasename}>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPlaceholder />} />
-            <Route path="*" element={<LoginPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
