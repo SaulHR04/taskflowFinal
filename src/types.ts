@@ -2,29 +2,37 @@ export interface Project {
   id: number | string
   name: string
   description?: string
+  ownerId?: number | string
+  createdAt?: string
 }
 
-export type TaskStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'
+export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE'
+export type TaskPriority = 'LOW' | 'MED' | 'HIGH'
 
 export interface Task {
   id: number | string
   title: string
   description?: string
   status: TaskStatus
-  projectId: number | string
+  priority: TaskPriority
+  projectId?: number | string
+  assigneeId?: number | string | null
+  dueDate?: string | null
 }
 
 export interface CreateTaskPayload {
   title: string
   description?: string
-  status?: TaskStatus
+  priority?: TaskPriority
   projectId?: number | string
+  assigneeId?: number | string | null
+  dueDate?: string | null
 }
 
 export interface UpdateTaskPayload {
-  title?: string
+  title: string
   description?: string
-  status?: TaskStatus
+  priority?: TaskPriority
 }
 
 export const TOKEN_KEY = 'taskflow_token'

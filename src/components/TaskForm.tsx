@@ -1,99 +1,89 @@
 import { useState, useEffect } from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import MenuItem from '@mui/material/MenuItem'
-import Stack from '@mui/material/Stack'
+import { TextField, MenuItem, Button, Stack } from '@mui/material'
 import type { Task, TaskStatus } from '../types'
 
-interface TaskFormModalProps {
-  open: boolean
-  onClose: () => void
-  onSubmit: (data: { title: string; description: string; status: TaskStatus }) => Promise<void>
-  initialData?: Task | null
+interface TaskFormProps {
+  onSubmit: (title: string, description: string, status: TaskStatus) => void
+  initialTask?: Task | null
+  onCancel?: () => void
 }
 
-const STATUS_OPTIONS = [
-  { value: 'PENDING', label: 'Pendiente' },
+const STATUS_OPTIONS: { value: TaskStatus; label: string }[] = [
+  { value: 'TODO', label: 'Pendiente' },
   { value: 'IN_PROGRESS', label: 'En Progreso' },
-  { value: 'COMPLETED', label: 'Completada' },
+  { value: 'DONE', label: 'Completada' },
 ]
 
-export function TaskFormModal({ open, onClose, onSubmit, initialData }: TaskFormModalProps) {
+export function TaskForm({ onSubmit, initialTask, onCancel }: TaskFormProps) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [status, setStatus] = useState<TaskStatus>('PENDING')
-  const [submitting, setSubmitting] = useState(false)
+  const [status, setStatus] = useState<TaskStatus>('TODO')
 
   useEffect(() => {
-    if (initialData) {
-      setTitle(initialData.title)
-      setDescription(initialData.description || '')
-      setStatus(initialData.status)
+    if (initialTask) {
+      setTitle(initialTask.title)
+      setDescription(initialTask.description || '')
+      setStatus(initialTask.status)
     } else {
       setTitle('')
       setDescription('')
-      setStatus('PENDING')
+      setStatus('TODO')
     }
-  }, [initialData, open])
+  }, [initialTask])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitting(true)
-    try {
-      await onSubmit({ title, description, status })
-      onClose()
-    } finally {
-      setSubmitting(false)
-    }
+    onSubmit(title, description, status)
+    setTitle('')
+    setDescription('')
+    setStatus('TODO')
   }
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <form onSubmit={handleSubmit}>
-        <DialogTitle>{initialData ? 'Editar Tarea' : 'Nueva Tarea'}</DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} mt={1}>
-            <TextField
-              label="Título"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              fullWidth
-            />
-            <TextField
-              label="Descripción"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              multiline
-              rows={2}
-              fullWidth
-            />
-            <TextField
-              select
-              label="Estado"
-              value={status}
-              onChange={(e) => setStatus(e.target.value as TaskStatus)}
-              fullWidth
-            >
-              {STATUS_OPTIONS.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} disabled={submitting}>Cancelar</Button>
-          <Button type="submit" variant="contained" disabled={!title.trim() || submitting}>
-            {submitting ? 'Guardando...' : 'Guardar'}
+    <form onSubmit={handleSubmit}>
+      <Stack spacing={2} my={2}>
+        <TextField
+          label="Título de la tarea"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          fullWidth
+          size="small"
+        />
+        <TextField
+          label="Descripción"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          fullWidth
+          multiline
+          rows={2}
+          size="small"
+        />
+        <TextField
+          select
+          label="Estado"
+          value={status}
+          onChange={(e) => setStatus(e.target.value as TaskStatus)}
+          fullWidth
+          size="small"
+        >
+          {STATUS_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Stack direction="row" spacing={1}>
+          <Button type="submit" variant="contained" size="small">
+            {initialTask ? 'Guardar Cambios' : 'Crear Tarea'}
           </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+          {onCancel && (
+            <Button variant="outlined" size="small" onClick={onCancel}>
+              Cancelar
+            </Button>
+          )}
+        </Stack>
+      </Stack>
+    </form>
   )
 }

@@ -31,7 +31,7 @@ export function useTasks(projectId: number | string | null) {
 
   const addTask = async (payload: CreateTaskPayload) => {
     if (!projectId) return
-    await taskService.createTask({ ...payload, projectId }) 
+    await taskService.createTask(projectId, payload) 
     await fetchTasks()
   }
 
