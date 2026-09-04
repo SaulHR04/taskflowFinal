@@ -1,33 +1,71 @@
 
-# React + TypeScript + Vite
+#  Task Flow final
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Una aplicación web SPA  para la gestion de proyectos, tareas Con Auth y alertas.
 
-Currently, two official plugins are available:
+---
+Credenciales para iniciar sesión:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Usuario: ana / Contraseña: ana123
 
-## React Compiler
+-----
+**El Problema que resuelve**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Permite gestionar de manera facil proyectos y tareas dentro de la organización. 
+- Facilita el seguimiento en tiempo real del progreso de las actividades (Pendiente, En progreso, Completada).
+- implementacion de JWT para el AUTH. 
 
-## Expanding the Oxlint configuration
+**Tecnologías  y Librerías**
+- React 18: Librería base para construir la interfaz.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- TypeScript
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+- Vite: Empaquetador y servidor de desarrollo.
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+- Material MUI y  Icons: Para los componentes visuales. 
+
+- Axios: Cliente HTTP para la comunicación asíncrona con la API REST.
+
+-------------------
+## Estructura General de Carpetas
+
+- **src/types.ts:** Contratos de datos (interfaces y tipos estrictos).
+
+- **src/main.tsx/App.tsx** Puntos de entrada, configuración del enrutador y tema global.
+
+- **src/context/:**  AuthContext para mantener la sesión viva.
+
+- **src/components/:** Interfaz visual reutilizable 
+
+- **src/services/:** Capa de red.
+
+- src/hooks/: Custom hooks (useAuth, useProjects) para separar la lógica de negocio de la vista.
+
+## Autenticación y Consumo de API
+Login y JWT
+
+- El flujo de autenticación es "stateless" es decir que no mantiene informacion. 
+
+- El usuario envía credenciales en /login.
+
+- El servidor valida y devuelve un token firmado.
+
+   El token se guarda en localStorage (clave TASKFLOW_TOKEN).
+
+**Interceptor de Axios:** Axio es el encargado de que se pueda tipar los datos de nuestros endpoints , previniendo errores.
+
+Manejo de Rutas Protegidas
+El componente <ProtectedRoute> funciona como guardián. Verifica el estado mediante el hook useAuth(). Si el usuario no está autenticado (token nulo), devuelve un componente <Navigate replace to="/login" /> que bloquea el acceso al dashboard y expulsa al usuario al login inmediatamente.
+
+## Resumen del CRUD Implementado
+- **GET:** Obtener proyectos (/projects) y tareas anidadas (/projects/{projectId}/tasks).
+
+- **POST:** Crear un nuevo proyecto o una nueva tarea vinculada al ID del proyecto.
+
+- **PUT:** Actualizar nombre/descripción de proyectos y tareas.
+
+- **PATCH:** Actualizar el estado de la tarea. 
+
+- **DELETE:** Borrar proyectos  y tareas individuales.
+
+-----------------

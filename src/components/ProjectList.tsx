@@ -23,7 +23,6 @@ export function ProjectList({ projects, loading, error, onEditProject, onDeleteP
   const [tasksLoading, setTasksLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
-  // Formulario
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [status, setStatus] = useState<TaskStatus>('TODO')
@@ -71,13 +70,12 @@ export function ProjectList({ projects, loading, error, onEditProject, onDeleteP
     setSubmitting(true)
     try {
       if (editingTaskId) {
-        // Actualizar tarea
+      
         await taskService.updateTask(editingTaskId, { title, description })
         if (status) {
           await taskService.updateTaskStatus(editingTaskId, status)
         }
       } else {
-        // Crear tarea nueva
         await taskService.createTask(selectedId, { title, description, priority: 'HIGH' })
       }
       resetForm()

@@ -10,7 +10,7 @@ export async function createTask(projectId: number | string, payload: CreateTask
   const body = {
     title: payload.title,
     description: payload.description || '',
-    priority: payload.priority || 'HIGH', // Obligatorio según OpenAPI
+    priority: payload.priority || 'HIGH', 
   }
   const response = await httpClient.post<Task>(`/projects/${projectId}/tasks`, body)
   return response.data
