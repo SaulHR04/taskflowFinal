@@ -6,12 +6,7 @@ import { ProtectedRoute } from './ProtectedRoute'
 import { DashboardPage } from './pages/DashboardPage'
 import { LoginPage } from './pages/LoginPage'
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-})
-
+const theme = createTheme()
 const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
 export default function App() {
