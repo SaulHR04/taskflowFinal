@@ -116,7 +116,7 @@ export function ProjectList({ projects, loading, error, onEditProject, onDeleteP
       {projects.map((p) => {
         const isOpen = selectedId === p.id
         return (
-          <div key={p.id} style={{ borderBottom: '1px solidrgb(63, 1, 1)', padding: '12px 0' }}>
+          <div key={p.id} style={{ borderBottom: '1px solid rgb(63, 1, 1)', padding: '12px 0' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <strong>{p.name}</strong>

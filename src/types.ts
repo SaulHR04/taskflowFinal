@@ -1,8 +1,8 @@
 export interface Project {
-  id: number | string
+  id: number;
   name: string
   description?: string
-  ownerId?: number | string
+  ownerId?: number;
   createdAt?: string
 }
 
@@ -10,23 +10,23 @@ export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE'
 export type TaskPriority = 'LOW' | 'MED' | 'HIGH'
 
 export interface Task {
-  id: number | string
+  id: number;
   title: string
   description?: string
   status: TaskStatus
   priority: TaskPriority
-  projectId?: number | string
-  assigneeId?: number | string | null
-  dueDate?: string | null
+  projectId?: number;
+  assigneeId?: number | null;
+  dueDate?: string | null;
 }
 
 export interface CreateTaskPayload {
   title: string
   description?: string
   priority?: TaskPriority
-  projectId?: number | string
-  assigneeId?: number | string | null
-  dueDate?: string | null
+  projectId?: number;
+  assigneeId?: number | null;
+  dueDate?: string | null;
 }
 
 export interface UpdateTaskPayload {
