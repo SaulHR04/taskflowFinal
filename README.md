@@ -6,7 +6,7 @@ Una aplicación web SPA  para la gestion de proyectos, tareas Con Auth y alertas
 ---
 Credenciales para iniciar sesión:
 
-Usuario: ana / Contraseña: ana123
+**Pedir credenciales al creador del repositorio**
 
 -----
 **El Problema que resuelve**
