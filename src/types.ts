@@ -4,7 +4,7 @@ export interface Project {
   description?: string
 }
 
-export type TaskStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | string
+export type TaskStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'
 
 export interface Task {
   id: number | string
@@ -18,6 +18,7 @@ export interface CreateTaskPayload {
   title: string
   description?: string
   status?: TaskStatus
+  projectId?: number | string
 }
 
 export interface UpdateTaskPayload {
@@ -26,4 +27,5 @@ export interface UpdateTaskPayload {
   status?: TaskStatus
 }
 
+export const TOKEN_KEY = 'taskflow_token'
 export const API_URL = import.meta.env.VITE_API_URL || 'https://d3ujwk09smrk9z.cloudfront.net'
