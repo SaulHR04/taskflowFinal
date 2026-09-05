@@ -16,7 +16,7 @@ export interface Task {
   status: TaskStatus
   priority: TaskPriority
   projectId?: number;
-  assigneeId?: number | null;
+  assigneeId?: number;
   dueDate?: string | null;
 }
 
@@ -25,14 +25,15 @@ export interface CreateTaskPayload {
   description?: string
   priority?: TaskPriority
   projectId?: number;
-  assigneeId?: number | null;
+  assigneeId?: number;
   dueDate?: string | null;
 }
 
 export interface UpdateTaskPayload {
-  title: string
-  description?: string
-  priority?: TaskPriority
+  title: string;
+  description?: string;
+  priority?: TaskPriority;
+  assigneeId?: number; 
 }
 
 export const TOKEN_KEY = 'taskflow_token'

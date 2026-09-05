@@ -25,4 +25,3 @@ export function getApiErrorMessage(err: unknown): string {
   }
   return err instanceof Error ? err.message : 'Error desconocido'
 }
-/*Configuracion de axios*/
